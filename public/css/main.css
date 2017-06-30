@@ -54,3 +54,8 @@ a {
 .form-signin button {
     margin: 10px 0;
 }
+
+.nav-pagination {
+    display: table;
+    margin: 0 auto;
+}

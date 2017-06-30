@@ -16,6 +16,7 @@
 
 <body>
     <div class="container">
+        <!--头部导航 start-->
         <header>
             <div class="backimg"><img src="/public/images/head.jpg" alt="背景图片"></div>
             <nav class="navbar navbar-default navbar-static-top">
@@ -36,8 +37,11 @@
                 </div>
             </nav>
         </header>
+        <!--头部导航 end-->
+
         <div class="row">
             <div class="col-sm-8">
+                <!--文章摘要列表 start-->
                 <div class="blog-article">
                     <h2>JavaScript基础之一</h2>
                     <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
@@ -48,8 +52,34 @@
                     <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
                     <button type="button" class=" btn btn-primary">阅读全文</button>
                 </div>
+                <!--文章摘要列表 end-->
+
+                <!--分页 start-->
+                <nav class="nav-pagination" aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!--分页 end-->
             </div>
+
+            <!--侧边栏 start-->
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                <!--用户信息 start-->
                 <div class="sidebar-module">
                     <div class="sidebar-title">
                         <span>用户信息&nbsp;&nbsp;</span>
@@ -60,6 +90,9 @@
                         <a href="#">退出</a>
                     </div>
                 </div>
+                <!--用户信息 end-->
+
+                <!--登录 start-->
                 <div class="sidebar-module">
                     <div class="sidebar-title">
                         <span>登录&nbsp;&nbsp;</span>
@@ -78,6 +111,9 @@
                         <p class=" pull-right">还没注册？<a>马上注册</a></p>
                     </div>
                 </div>
+                <!--登录 end-->
+
+                <!--注册 start-->
                 <div class="sidebar-module">
                     <div class="sidebar-title">
                         <span>注册&nbsp;&nbsp;</span>
@@ -95,7 +131,11 @@
                         <p class=" pull-right">已有账号？<a>马上登录</a></p>
                     </div>
                 </div>
+                <!--注册 end-->
+
             </div>
+            <!--侧边栏 end-->
+
         </div>
 
     </div>
