@@ -1,0 +1,56 @@
+body {
+    overflow: auto;
+    background: #eee;
+}
+
+a {
+    cursor: pointer;
+}
+
+.backimg img {
+    width: 100%;
+}
+
+.blog-article {
+    background: #fff;
+    padding: 10px;
+    margin: 10px 0;
+    /*触发BFC，防止外边距折叠*/
+    display: inline-block;
+}
+
+.sidebar-module {
+    background: #fff;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.sidebar-title {
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-title span {
+    display: inline-block;
+    border-bottom: 2px solid sandybrown;
+    margin-bottom: -1px;
+    padding-bottom: 2px;
+}
+
+.sidebar-content {
+    /*使父元素形成BFC*/
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+.form-signin {
+    font-size: 12px;
+}
+
+.form-signin label {
+    margin-top: 5px;
+}
+
+.form-signin button {
+    margin: 10px 0;
+}
