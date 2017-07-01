@@ -1,9 +1,10 @@
 /**
  * 应用程序启动(入口)文件
  **/
-const express=require('express');
-const swig=require('swig');
-const mongoose=require('mongoose');
+const express=require('express');//express模块
+const swig=require('swig');//模板处理模块
+const mongoose=require('mongoose');//数据库模块
+const bodyParser=require('body-parser');//中间件，处理post提交的数据
 
 //创建app应用，等价于app.createServer();
 let app=express();
@@ -19,6 +20,8 @@ app.set('views','./views');//设置模板文件存放的目录，第一个必须
 app.set('view engine','html');//注册模板引擎
 swig.setDefaults({cache:false});//取消模板缓存
 
+//bodyParser设置
+app.use(bodyParser.urlencoded({extended:true}));
 //根据不同功能划分模板
 app.use('/admin',require('./routers/admin'));
 app.use('/api',require('./routers/api'));
