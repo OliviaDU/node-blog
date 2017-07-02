@@ -1,6 +1,5 @@
 const express = require('express');
-
-let router = express.Router();
+const router = express.Router();
 
 router.get('/user', (req, res, next) => {
     res.send('admin-user');

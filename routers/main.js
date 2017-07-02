@@ -1,9 +1,11 @@
 const express = require('express');
-
-let router = express.Router();
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    res.render('main/index');
+    res.render('main/index',{
+        //分配给模板使用的数据
+        userInfo:req.userInfo
+    });
 });
 
 module.exports = router;
