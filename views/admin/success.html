@@ -1,0 +1,22 @@
+<!--继承layout模板-->
+{% extends 'layout.html' %}
+
+<!--重写block main模块-->
+{% block main %}
+
+<ol class="breadcrumb">
+    <li><a href="/">管理首页</a></li>
+    <li><span>成功提示</span></li>
+</ol>
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">成功提示</h3>
+    </div>
+    <div class="panel-body">{{errMessage}}</div>
+    <div class="panel-footer">
+        <a href="{{url}}">点击这里进行跳转</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -24,7 +24,7 @@ app.set('views', './views');//设置模板文件存放的目录，第一个必�
 app.set('view engine', 'html');//注册模板引擎
 swig.setDefaults({ cache: false });//取消模板缓存
 
-//bodyParser设置
+//bodyParser设置,接收post提交的数据并进行处理
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //设置cookie
@@ -60,7 +60,6 @@ app.use((req, res, next) => {
 app.use('/admin', require('./routers/admin'));
 app.use('/api', require('./routers/api'));
 app.use('/', require('./routers/main'));
-
 
 app.get('/', (req, res, next) => {
     res.render('index');//views/index.html
