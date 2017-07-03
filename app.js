@@ -28,7 +28,7 @@ swig.setDefaults({ cache: false });//取消模板缓存
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //设置cookie
-//中间件
+//安装在 /user/:id 路径中的中间件函数,在路径中为任何类型的 HTTP 请求执行此函数。
 app.use((req, res, next) => {
     req.cookies = new Cookies(req, res);
 
