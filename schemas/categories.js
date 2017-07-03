@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
+/**
+ * 分类的表结构
+ */
 
-//分类的表结构
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 module.exports = new Schema({
     //分类名称

@@ -6,10 +6,10 @@
 
 <ol class="breadcrumb">
     <li><a href="/admin">管理首页</a></li>
-    <li><span>分类列表</span></li>
+    <li><span>内容列表</span></li>
 </ol>
 
-<h3>分类列表</h3>
+<h3>内容列表</h3>
 
 {% include 'page.html' %}
 
@@ -17,15 +17,16 @@
     <tr class="info">
         <th>ID</th>
         <th>分类名称</th>
-        <th>操作</th>
+        <th>标题</th>
     </tr>
-    {% for category in categories %}
+    {% for content in contents %}
     <tr>
-        <td>{{category._id.toString()}}</td>
-        <td>{{category.name}}</td>
+        <td>{{content._id.toString()}}</td>
+        <td>{{content.category.name}}</td>
+        <td>{{content.title}}</td>
         <td>
-            <a href="/admin/category/edit?id={{category._id.toString()}}">修改</a> |
-            <a href="/admin/category/delete?id={{category._id.toString()}}">删除</a>
+            <a href="/admin/content/edit?id={{content._id.toString()}}">修改</a> |
+            <a href="/admin/content/delete?id={{content._id.toString()}}">删除</a>
         </td>
         <td>
             {% if user.isAdmin %} 是 {% endif %}

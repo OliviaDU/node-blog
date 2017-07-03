@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
+/**
+ * 用户的表结构
+ */
 
-//用户的表结构
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 module.exports = new Schema({
     //用户名
