@@ -38,16 +38,18 @@
         <div class="row">
             <div class="col-sm-8">
                 <!--文章摘要列表 start-->
+                {% for content in contents %}
                 <section class="blog-article">
-                    <h2>JavaScript基础之一</h2>
-                    <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+                    <h2>{{content.title}}</h2>
+                    <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
+                        <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
+                        <span class="text-primary">{{content.views}}</span> 评论数：
+                        <span class="text-primary">10</span>
+                    </p>
+                    <p>{{content.abstract}}</p>
                     <button type="button" class=" btn btn-primary">阅读全文</button>
                 </section>
-                <section class="blog-article">
-                    <h2>JavaScript基础之二</h2>
-                    <p>This example is a quick exercise to illustrate how the default, static navbar and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-                    <button type="button" class=" btn btn-primary">阅读全文</button>
-                </section>
+                {% endfor %}
                 <!--文章摘要列表 end-->
 
                 <!--分页 start-->

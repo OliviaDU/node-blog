@@ -61,7 +61,8 @@ router.get('/user', (req, res) => {
                 count: count,
                 page: page,
                 limit: limit,
-                pages: pages
+                pages: pages,
+                url:'/admin/user'
             });
         });
 
@@ -110,7 +111,8 @@ router.get('/category', (req, res) => {
                 count: count,
                 page: page,
                 limit: limit,
-                pages: pages
+                pages: pages,
+                url:'/admin/category'
             });
         });
 
@@ -296,7 +298,9 @@ router.get('/content', (req, res) => {
         let skip = (page - 1) * limit;
 
         //关联查询populate
-        Content.find().sort({ _id: -1 }).limit(limit).skip(skip).populate('category').then((contents) => {
+        Content.find().sort({ _id: -1 }).limit(limit).skip(skip).populate(['category','user']).sort({
+            addTime: -1
+        }).then((contents) => {
             res.render('admin/content_index', {
                 //后端数据传递给前端模板
                 userInfo: req.userInfo,
@@ -305,7 +309,8 @@ router.get('/content', (req, res) => {
                 count: count,
                 page: page,
                 limit: limit,
-                pages: pages
+                pages: pages,
+                url:'/admin/content'
             });
         });
 
@@ -322,7 +327,6 @@ router.get('/content/add', (req, res) => {
             categories: categories
         });
     });
-
 
 });
 
@@ -350,6 +354,7 @@ router.post('/content/add', (req, res) => {
     let data = {
         category: req.body.category,
         title: req.body.title,
+        user:req.userInfo._id.toString(),
         abstract: req.body.abstract,
         content: req.body.content
     };
@@ -360,7 +365,8 @@ router.post('/content/add', (req, res) => {
     }).then(() => {
         res.render('admin/success', {
             userInfo: req.userInfo,
-            message: '内容保存成功'
+            message: '内容保存成功',
+            url:'/admin/content'
         });
     });
 

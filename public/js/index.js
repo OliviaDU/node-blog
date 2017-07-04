@@ -1,8 +1,8 @@
 $(function () {
     //获取DOM元素
-    $registerBox = $("#register-box");
-    $loginBox = $("#login-box");
-    $userInfoBox = $("#userInfo-box");
+    let $registerBox = $("#register-box"),
+        $loginBox = $("#login-box"),
+        $userInfoBox = $("#userInfo-box");
 
     //切换到注册面板
     $("#register-link").click(() => {
@@ -65,11 +65,11 @@ $(function () {
     });
 
     //退出
-    $("#logout-btn").click(()=>{
+    $("#logout-btn").click(() => {
         $.ajax({
-            url:'/api/user/logout',
-            success:(result)=>{
-                if(!result.code){
+            url: '/api/user/logout',
+            success: (result) => {
+                if (!result.code) {
                     //退出成功
                     window.location.reload();
                 }
