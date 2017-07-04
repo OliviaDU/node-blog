@@ -19,7 +19,11 @@
                 <label for="title">分类</label>
                 <select class=" form-control" name="category" id="category">
                     {% for category in categories %}
-                    <option value="{{category.id}}">{{category.name}}</option>
+                        {% if content.category._id.toString() == category._id %}
+                        <option value="{{category.id}}" selected>{{category.name}}</option>
+                        {% else %}
+                        <option value="{{category.id}}">{{category.name}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

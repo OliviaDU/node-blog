@@ -11,7 +11,7 @@ module.exports = new Schema({
         //类型
         type: mongoose.Schema.Types.ObjectId,
         //引用
-        ref: 'Content'
+        ref: 'Category'
     },
 
     //内容标题

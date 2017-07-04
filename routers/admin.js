@@ -281,7 +281,7 @@ router.get('/category/delete', (req, res) => {
  */
 router.get('/content', (req, res) => {
     let page = Number(req.query.page) || 1,//get方式获取page，字符串要转换为数字
-        pages = 0,
+        pages = 0,//总页数
         limit = 6;
 
     Content.count().then((count) => {
@@ -355,7 +355,7 @@ router.post('/content/add', (req, res) => {
     };
     let Blog = new Content(data);
 
-    Blog.save(data,(err)=>{
+    Blog.save(data, (err) => {
         console.log(err);
     }).then(() => {
         res.render('admin/success', {
@@ -371,10 +371,18 @@ router.post('/content/add', (req, res) => {
  */
 router.get('/content/edit', (req, res) => {
     //获取要修改的分类信息
-    let id = req.query.id || '';
+    let id = req.query.id || '',
+        categories = [];
 
-    Content.findOne({
-        _id: id
+    //查找分类信息
+    Category.find().then((rs) => {
+        categories = rs;
+
+        //查找内容信息并返回
+        return Content.findOne({
+            _id: id
+        }).populate('category');
+
     }).then((content) => {
 
         if (!content) {
@@ -386,12 +394,70 @@ router.get('/content/edit', (req, res) => {
         } else {
             res.render('admin/content_edit', {
                 userInfo: req.userInfo,
+                categories: categories,
                 content: content
             });
         }
 
     });
-
 });
+
+/**
+ * 内容的修改保存
+ */
+router.post('/content/edit', (req, res) => {
+    //获取要修改的分类信息，并以表单形式展现出来
+    let id = req.query.id || '';
+
+    if (!req.body.category) {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '内容分类不能为空'
+        });
+        return;
+    }
+
+    if (!req.body.title) {
+        res.render('admin/error', {
+            userInfo: req.userInfo,
+            message: '标题不能为空'
+        });
+        return;
+    }
+
+    Content.update({
+        _id: id
+    }, {
+            category: req.body.category,
+            title: req.body.title,
+            abstract: req.body.abstract,
+            content: req.body.content
+        }).then(() => {
+            res.render('admin/success', {
+                userInfo: req.userInfo,
+                message: '内容修改成功',
+                url:'/admin/content'
+            });
+        });
+});
+
+/**
+ * 内容的删除
+ */
+router.get('/content/delete', (req, res) => {
+    //获取要修改的分类信息，并以表单形式展现出来
+    let id = req.query.id || '';
+
+    Content.remove({
+        _id: id
+    }).then(() => {
+        res.render('admin/success', {
+            userInfo: req.userInfo,
+            message: '删除成功',
+            url: '/admin/content'
+        });
+    });
+});
+
 
 module.exports = router;
