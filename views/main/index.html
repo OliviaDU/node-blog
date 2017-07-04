@@ -1,182 +1,57 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+{% extends 'layout.html' %}
+<!--/-->
+{% block content%}
+<!--文章摘要列表 start-->
+<!--如果当前分类没有内容-->
+{% if contents=='' %}
+<!--/-->
+<section class="blog-article">
+    <p>当前分类下没有内容</p>
+</section>
+{% else %}
+<!--/-->
+{% for content in contents %}
+<section class="blog-article">
+    <h2>{{content.title}}</h2>
+    <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
+        <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
+        <span class="text-primary">{{content.views}}</span> 评论数：
+        <span class="text-primary">10</span>
+    </p>
+    <p>{{content.abstract}}</p>
+    <a href="/view?contentid={{content.id}}" class=" btn btn-primary">阅读全文</a>
+</section>
+{% endfor %}
+<!--、-->
+{% endif %}
+<!--文章摘要列表 end-->
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>博客</title>
-    <link rel="shortcut icon" href="/public/images/favicon.ico">
-    <link rel="stylesheet" href="/public/css/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/main.css">
-    <link rel="stylesheet" href="/public/css/font-awesome/css/font-awesome.min.css">
-    <script src="/public/js/jquery-3.2.1.min.js"></script>
-    <script src="/public/js/bootstrap.min.js"></script>
-    <script src="/public/js/index.js"></script>
-</head>
-
-<body>
-    <div class="container">
-        <!--头部导航 start-->
-        <header>
-            <div class="backimg"><img src="/public/images/head.jpg" alt="背景图片"></div>
-            <nav class="navbar navbar-default navbar-static-top">
-                <div class="container">
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            {% if categoryID%}
-                            <!--/-->
-                            <li><a href="/">首页</a></li>
-                            {% else %}
-                            <!--/-->
-                            <li class="active"><a href="/">首页</a></li>
-                            {% endif %}
-                            <!--/-->
-                            {% for category in categories %}
-                            <!--/-->
-                            {% if category.id===categoryID %}
-                            <li class="active"><a href="/?category={{category.id}}">{{category.name}}</a></li>
-                            {% else %}
-                            <!--/-->
-                            <li><a href="/?category={{category.id}}">{{category.name}}</a></li>
-                            {% endif %}
-                            <!--/-->
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <!--头部导航 end-->
-
-        <div class="row">
-            <div class="col-sm-8">
-                <!--文章摘要列表 start-->
-                <!--如果当前分类没有内容-->
-                {% if contents=='' %}
-                <!--/-->
-                <section class="blog-article">
-                    <p>当前分类下没有内容</p>
-                </section>
-                {% else %}
-                <!--/-->
-                {% for content in contents %}
-                <section class="blog-article">
-                    <h2>{{content.title}}</h2>
-                    <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
-                        <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
-                        <span class="text-primary">{{content.views}}</span> 评论数：
-                        <span class="text-primary">10</span>
-                    </p>
-                    <p>{{content.abstract}}</p>
-                    <button type="button" class=" btn btn-primary">阅读全文</button>
-                </section>
-                {% endfor %}
-                <!--、-->
-                {% endif %}
-                <!--文章摘要列表 end-->
-
-                <!--分页 start-->
-                <nav class="nav-pagination" aria-label="Page navigation">
-                    <ul class="pager">
-                        <li>
-                            {% if page >1 %}
-                            <!--/-->
-                            <a href="/?category={{categoryID}}&page={{page-1}}" aria-label="Previous">上一页</a>
-                            <!--/-->
-                            {% else %}
-                            <span>没有上一页了</span>
-                            <!--/-->
-                            {% endif %}
-                        </li>
-                        <li>
-                            <strong>{{page}}/{{Math.max(pages,1)}}</strong>
-                        </li>
-                        <li>
-                            {% if page>=pages %}
-                            <span>没有下一页了</span>
-                            <!--/-->
-                            {%else%}
-                            <a href="/?category={{categoryID}}&page={{page+1}}" aria-label="Next">下一页</a>
-                            <!--/-->
-                            {% endif %}
-                        </li>
-                    </ul>
-                </nav>
-                <!--分页 end-->
-            </div>
-
-            <!--侧边栏 start-->
-            <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-                {% if userInfo._id %}
-                <!--用户信息 start-->
-                <div id="userInfo-box" class="sidebar-module">
-                    <div class="sidebar-title">
-                        <span>用户信息&nbsp;&nbsp;</span>
-                    </div>
-                    <div class="sidebar-content">
-                        <p class="username">{{userInfo.username}}</p>
-                        {% if userInfo.isAdmin %}
-                        <p class="info">你好，管理员！<a href="/admin">进入管理中心</a></p>
-                        {% else %}
-                        <p class="info">欢迎光临我的博客!</p>
-                        {% endif %}
-                        <a id="logout-btn" href="#">退出</a>
-                    </div>
-                </div>
-                <!--用户信息 end-->
-                {% else %}
-                <!--登录 start-->
-                <div id="login-box" class="sidebar-module">
-                    <div class="sidebar-title">
-                        <span>登录&nbsp;&nbsp;</span>
-                    </div>
-                    <div class="sidebar-content">
-                        <form class="form-signin">
-                            <label for="loginName">用户名</label>
-                            <input class="form-control" type="text" name="loginName" id="loginName" placeholder="用户名">
-                            <label for="loginPassword">密码</label>
-                            <input class="form-control" type="password" name="loginPassword" id="loginPassword" placeholder="密码">
-                            <div class="checkbox">
-                                <label><input type="checkbox">记住密码</label>
-                            </div>
-                            <button id="login-btn" type="submit" class="btn btn-primary btn-block">登录</button>
-                        </form>
-                        <p class="text-right">还没注册？<a id="register-link">马上注册</a></p>
-                        <p class="text-center text-danger"></p>
-                    </div>
-                </div>
-                <!--登录 end-->
-
-                <!--注册 start-->
-                <div id="register-box" class="sidebar-module behidden">
-                    <div class="sidebar-title">
-                        <span>注册&nbsp;&nbsp;</span>
-                    </div>
-                    <div class="sidebar-content">
-                        <form class="form-signin">
-                            <label for="inputName">用户名</label>
-                            <input class="form-control" type="text" name="inputName" id="inputName" placeholder="用户名">
-                            <label for="inputPassword">密码</label>
-                            <input class="form-control" type="password" name="inputPassword" id="inputPassword" placeholder="密码">
-                            <label for="confirmPassword">确认密码</label>
-                            <input class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="确认密码">
-                            <button id="register-btn" type="submit" class="btn btn-primary btn-block">注册</button>
-                        </form>
-                        <p class="text-right">已有账号？<a id="login-link">马上登录</a></p>
-                        <p class="text-center text-danger"></p>
-                    </div>
-                </div>
-                <!--注册 end-->
-                {% endif %}
-
-            </div>
-            <!--侧边栏 end-->
-
-        </div>
-
-    </div>
-
-</body>
-
-</html>
+<!--分页 start-->
+<nav class="nav-pagination" aria-label="Page navigation">
+    <ul class="pager">
+        <li>
+            {% if page >1 %}
+            <!--/-->
+            <a href="/?category={{categoryID}}&page={{page-1}}" aria-label="Previous">上一页</a>
+            <!--/-->
+            {% else %}
+            <span>没有上一页了</span>
+            <!--/-->
+            {% endif %}
+        </li>
+        <li>
+            <strong>{{page}}/{{Math.max(pages,1)}}</strong>
+        </li>
+        <li>
+            {% if page>=pages %}
+            <span>没有下一页了</span>
+            <!--/-->
+            {%else%}
+            <a href="/?category={{categoryID}}&page={{page+1}}" aria-label="Next">下一页</a>
+            <!--/-->
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+<!--分页 end-->
+{% endblock %}

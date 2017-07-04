@@ -1,0 +1,13 @@
+{% extends 'layout.html' %} {% block content%}
+
+<div class="blog-article">
+    <h2>{{content.title}}</h2>
+    <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
+        <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
+        <span class="text-primary">{{content.views}}</span> 评论数：
+        <span class="text-primary">10</span>
+    </p>
+    <dfn>{{content.content}}</dfn>
+</div>
+
+{% endblock %}
