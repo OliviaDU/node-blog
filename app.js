@@ -3,7 +3,10 @@
  **/
 const express = require('express');//express模块
 const swig = require('swig');//模板处理模块
+
 const mongoose = require('mongoose');//数据库模块
+mongoose.Promise = Promise;
+
 const bodyParser = require('body-parser');//中间件，处理post提交的数据
 const Cookies = require('cookies');
 const User=require('./models/User');

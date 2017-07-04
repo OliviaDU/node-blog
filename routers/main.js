@@ -3,23 +3,33 @@ const router = express.Router();
 const Category = require('../models/Category');
 const Content = require('../models/Content');
 
+const mongoose = require('mongoose');
+mongoose.Promise = Promise;
+
 router.get('/', (req, res, next) => {
 
     let data = {
         userInfo: req.userInfo,
+        categoryID: req.query.category || '',
         categories: [],
 
         page: Number(req.query.page) || 1,//get方式获取page，字符串要转换为数字
         pages: 0,//总页数
-        limit: 6
+        limit: 4
     };
 
+
+    let where = {};
+    if (data.categoryID) {
+        where.category = data.categoryID;
+    }
+    
     //读取所有的分类信息
     Category.find().then((categories) => {
         data.categories = categories;
 
         //读取内容
-        return Content.count();
+        return Content.where(where).count();
 
     }).then((count) => {
         data.count = count;
@@ -32,7 +42,8 @@ router.get('/', (req, res, next) => {
 
         let skip = (data.page - 1) * data.limit;
 
-        return Content.find().limit(data.limit).skip(skip).populate(['category', 'user']).sort({
+
+        return Content.where(where).limit(data.limit).skip(skip).populate(['category', 'user']).sort({
             addTime: -1
         });
 
