@@ -16,7 +16,7 @@
     <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
         <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
         <span class="text-primary">{{content.views}}</span> 评论数：
-        <span class="text-primary">10</span>
+        <span class="text-primary">{{content.comments.length}}</span>
     </p>
     <p>{{content.abstract}}</p>
     <a href="/view?contentid={{content.id}}" class=" btn btn-primary">阅读全文</a>
