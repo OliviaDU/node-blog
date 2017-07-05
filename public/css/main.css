@@ -15,7 +15,7 @@ a {
     width: 100%;
 }
 
-.blog-article {
+.blog-section {
     width: 100%;
     background: #fff;
     padding: 10px;
@@ -63,4 +63,21 @@ a {
 .nav-pagination {
     display: table;
     margin: 0 auto;
+}
+
+.comment-btn {
+    width: 100px;
+    margin-top: 10px;
+}
+
+
+/*清除浮动*/
+
+.comment-form {
+    display: inline-block;
+    width: 100%;
+}
+
+.comment-title {
+    overflow: hidden;
 }

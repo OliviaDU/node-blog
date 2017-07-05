@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
+//引入数据模型
 const User = require('../models/User');//引入数据模型
+const Content = require('../models/Content');
 
 //统一返回格式
 let responseData = {};
@@ -133,6 +136,52 @@ router.post('/user/login', (req, res) => {
 router.get('/user/logout', (req, res) => {
     req.cookies.set('userInfo', null);
     res.json(responseData);//返回数据给前端
+});
+
+/**
+ * 获取指定文章所有评论
+ */
+router.get('/comment', (req, res) => {
+    let contentId = req.query.contentid || '';
+
+    //查询当前文章信息
+    Content.findOne({
+        _id: contentId
+    },(err)=>{
+        if(err){
+            console.log('查询发送错误');
+        }
+    }).then((content) => {
+        responseData.data = content;
+        res.json(responseData);
+    });
+
+});
+
+/**
+ * 提交评论
+ */
+router.post('/comment/post', (req, res) => {
+    //所评论文章的id
+    let contentId = req.body.contentid || '';
+    //提交的评论内容
+    let postData = {
+        username: req.userInfo.username,//通过cookie获取
+        postTime: new Date(),
+        content: req.body.content
+    };
+
+    //查询当前文章信息
+    Content.findOne({
+        _id: contentId
+    }).then((content) => {
+        content.comments.push(postData);
+        return content.save();//保存到数据库
+    }).then((newContent) => {
+        responseData.message = '评论成功';
+        responseData.data = newContent;
+        res.json(responseData);
+    });
 });
 
 module.exports = router;

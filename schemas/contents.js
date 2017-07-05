@@ -47,5 +47,11 @@ module.exports = new Schema({
     content: {
         type: String,
         default: ''
+    },
+
+    //评论
+    comments: {
+        type: Array,
+        default: []
     }
 });

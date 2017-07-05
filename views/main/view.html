@@ -1,6 +1,10 @@
-{% extends 'layout.html' %} {% block content%}
+{% extends 'layout.html' %}
 
-<div class="blog-article">
+<!--重写content-->
+{% block content%}
+
+<!--文章内容区 start-->
+<div class="blog-section">
     <h2>{{content.title}}</h2>
     <p> 作者：<span class="text-primary">{{content.user.username}}</span> 时间：
         <span class="text-primary">{{content.addTime|date('Y-m-d H:i:s',-480)}}</span> 阅读：
@@ -9,5 +13,34 @@
     </p>
     <dfn>{{content.content}}</dfn>
 </div>
+<!--文章内容区 end-->
+
+<!--文章评论区 start-->
+<div class="blog-section">
+    <label class="pull-left">评论</label>
+    <span id="comment-count" class="pull-right"></span>
+    <!--/-->
+
+    <div class="comment-form">
+        <textarea id="comment-textarea" rows="8" class="form-control"></textarea>
+        <input type="hidden" id="content-id" value="{{content.id}}">
+        <button id="comment-btn" type="button" class="btn btn-primary pull-right comment-btn">评论</button>
+    </div>
+
+    <!--判断用户是否登录-->
+    {% if !userInfo._id %}
+    <div class="alert alert-danger">你还没有登录，请先 <a href="">登录</a></div>
+    <!--/-->
+    {% endif %}
+    <!--/-->
+
+    <div class="comment-content">
+
+    </div>
+
+
+</div>
+<!--文章评论区 end-->
+<script src="/public/js/comment.js"></script>
 
 {% endblock %}
