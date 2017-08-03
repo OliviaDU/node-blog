@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //引入数据模型
-const User = require('../models/User');//引入数据模型
+const User = require('../models/User'); //引入数据模型
 const Content = require('../models/Content');
 
 //统一返回格式
@@ -10,8 +10,8 @@ let responseData = {};
 
 router.use((req, res, next) => {
     responseData = {
-        code: 0,//错误码，0代表没有错误
-        message: ''//错误信息
+        code: 0, //错误码，0代表没有错误
+        message: '' //错误信息
     };
 
     next();
@@ -30,7 +30,7 @@ router.post('/user/register', (req, res, next) => {
     if (username == '') {
         responseData.code = 1;
         responseData.message = '用户名不能为空';
-        res.json(responseData);//将数据转为json格式返回给前端
+        res.json(responseData); //将数据转为json格式返回给前端
         return;
     }
 
@@ -75,12 +75,12 @@ router.post('/user/register', (req, res, next) => {
             password: password
         });
 
-        return user.save();//返回promise对象
+        return user.save(); //返回promise对象
 
     }).then((newUserInfo) => {
         //注册成功
         responseData.message = '注册成功';
-        res.json(responseData);//将数据转为json格式返回给前端
+        res.json(responseData); //将数据转为json格式返回给前端
     });
 
 });
@@ -96,7 +96,7 @@ router.post('/user/login', (req, res) => {
     if (username == '' || password == '') {
         responseData.code = 1;
         responseData.message = '用户名或密码不能为空';
-        res.json(responseData);//将数据转为json格式返回给前端
+        res.json(responseData); //将数据转为json格式返回给前端
         return;
     }
 
@@ -112,7 +112,7 @@ router.post('/user/login', (req, res) => {
         if (!userInfo) {
             responseData.code = 2;
             responseData.message = '用户名或密码错误';
-            res.json(responseData);//返回数据给前端
+            res.json(responseData); //返回数据给前端
             return;
         }
         //用户名和密码是正确的
@@ -125,7 +125,7 @@ router.post('/user/login', (req, res) => {
             _id: userInfo._id,
             username: userInfo.username
         }));
-        res.json(responseData);//返回数据给前端
+        res.json(responseData); //返回数据给前端
     });
 
 });
@@ -135,7 +135,7 @@ router.post('/user/login', (req, res) => {
  */
 router.get('/user/logout', (req, res) => {
     req.cookies.set('userInfo', null);
-    res.json(responseData);//返回数据给前端
+    res.json(responseData); //返回数据给前端
 });
 
 /**
@@ -147,8 +147,8 @@ router.get('/comment', (req, res) => {
     //查询当前文章信息
     Content.findOne({
         _id: contentId
-    },(err)=>{
-        if(err){
+    }, (err) => {
+        if (err) {
             console.log('查询发送错误');
         }
     }).then((content) => {
@@ -161,14 +161,30 @@ router.get('/comment', (req, res) => {
 /**
  * 提交评论
  */
+//为评论进行HTML entity编码
+function html_encode(str) {
+    var s = '';
+    if (!str) return '';
+    s = str.replace(/>/g, '&gt;')
+        .replace(/</g, '&lt;')
+        .replace(/&/g, '&amp;')
+        .replace(/\s/g, '&nbsp;')
+        .replace(/\'/g, '&apos')
+        .replace(/\"/g, '&quot')
+        .replace(/\n/, '<br>');
+    return s;
+}
+
 router.post('/comment/post', (req, res) => {
+    if (!req.body.content) return false;
+
     //所评论文章的id
     let contentId = req.body.contentid || '';
     //提交的评论内容
     let postData = {
-        username: req.userInfo.username,//通过cookie获取
+        username: req.userInfo.username, //通过cookie获取
         postTime: new Date(),
-        content: req.body.content
+        content: html_encode(req.body.content)
     };
 
     //查询当前文章信息
@@ -176,11 +192,13 @@ router.post('/comment/post', (req, res) => {
         _id: contentId
     }).then((content) => {
         content.comments.push(postData);
-        return content.save();//保存到数据库
+        return content.save(); //保存到数据库
     }).then((newContent) => {
         responseData.message = '评论成功';
         responseData.data = newContent;
         res.json(responseData);
+    }).catch((err) => {
+        res.message = err;
     });
 });
 
