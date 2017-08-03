@@ -15,5 +15,8 @@
     "markdown": "^0.5.0",
     "mongoose": "^4.11.0",
     "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "he": "^1.1.1"
   }
 }
