@@ -165,12 +165,12 @@ router.get('/comment', (req, res) => {
 function html_encode(str) {
     var s = '';
     if (!str) return '';
-    s = str.replace(/>/g, '&gt;')
+    s = str.replace(/&/g, '&amp;') //&必须放在最前面，防止后面的&二次转义
+        .replace(/>/g, '&gt;')
         .replace(/</g, '&lt;')
-        .replace(/&/g, '&amp;')
         .replace(/\s/g, '&nbsp;')
-        .replace(/\'/g, '&apos')
-        .replace(/\"/g, '&quot')
+        .replace(/\'/g, '&apos;')
+        .replace(/\"/g, '&quot;')
         .replace(/\n/, '<br>');
     return s;
 }
