@@ -19,7 +19,7 @@ $.ajax({
 let page = 1;
 
 //运用事件委托为a标签绑定事件
-$('.pager').delegate('a', 'click', function () {
+$('.pager').delegate('a', 'click', function() {
     if ($(this).parent().hasClass('previous')) {
         --page;
     } else {
@@ -58,12 +58,12 @@ $('#comment-btn').click(() => {
  */
 function renderComment() {
     //评论分页
-    let len = comments.length;//评论总数
+    let len = comments.length; //评论总数
     if (!len) {
         $('.pager').html('<p>还没有评论</p>');
     } else {
-        let limit = 3,//每页显示评论数
-            pages = Math.ceil(len / limit),//评论总页数
+        let limit = 8, //每页显示评论数
+            pages = Math.ceil(len / limit), //评论总页数
 
             start = (page - 1) * limit,
             end = start + limit;
@@ -91,13 +91,14 @@ function renderComment() {
 
         comments.slice(start, end).forEach((comment) => {
             // 评论内容模板
+            //comment.content = parse(comment.content);
             let commentContent = `
             <div class="comment-title">
                 <hr>
                 <strong class="pull-left">${comment.username}</strong>
                 <span class="pull-right">${formData(comment.postTime)}</span>
             </div>
-            <p>${comment.content}</p>`;
+            <p>${comment.content}</p>`; //p内的内容默认按照HTML进行解析，而不是text
 
             html += commentContent;
         });
@@ -105,7 +106,7 @@ function renderComment() {
         $('.comment-content').html(html);
     }
 
-  $('#comment-count').html(`共 ${len} 条评论`);
+    $('#comment-count').html(`共 ${len} 条评论`);
 
 }
 
